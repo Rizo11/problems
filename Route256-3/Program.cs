@@ -1,89 +1,75 @@
-﻿namespace Route256;
+using System.Text;
+
+namespace Route256;
 
 public class Program
 {
-    static void Main(string[] args)
+    public static void Main()
     {
         int t = int.Parse(Console.ReadLine());
         while(t-- != 0)
         {
             Console.ReadLine();
-            var dimention = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
-            int[,] array = new int[dimention[0], dimention[1]];
-            for(int i = 0; i < dimention[0]; i++)
+            int n = int.Parse(Console.ReadLine());
+            Dictionary<string, string[]> modules = new();
+            while(n-- != 0)
             {
-                var line = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
-                for(int j = 0; j < dimention[1]; j++)
-                {
-                    array[i, j] = line[j];
-                }
+                // Reading modules
+                string[] currentModule = Console.ReadLine().Split(':');
+                modules.Add(currentModule[0], currentModule[1].Length > 0 ? currentModule[1].Split(' ') : null);
             }
-            int k = int.Parse(Console.ReadLine());
-            var kArray = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
-            foreach (int item in kArray)
+            int request = int.Parse(Console.ReadLine());
+            Dictionary<string, bool> compiled = new();
+            while (request-- != 0)
             {
-                for(int i = 0; i < dimention[0]; i++)
+                // Reading requests
+                List<string> answer = new();
+                string currentRequest = Console.ReadLine();
+                if(!compiled.Keys.Contains(currentRequest))
                 {
-                    var current = array[i, item-1];
-                    for (int j = i+1; j < dimention[0]; j++)
+                    // compile and add to compiled
+                    if (modules[currentRequest] != null)
                     {
-                        if (current > array[j, item - 1])
+                        foreach (var dependance in modules[currentRequest])
                         {
-                            for (int a = 0; a < dimention[1]; a++)
-                            {
-                                int tmp = array[i, a];
-                                array[i, a] = array[j, a];
-                                array[j, a] = tmp;
-                            }
-                            current = array[j, item - 1];
+                            if (dependance != "")
+                                Compiler(modules, dependance, answer, compiled);
                         }
                     }
+                    compiled.Add(currentRequest, true);
+                    answer.Add(currentRequest);
                 }
-            }
-            for (int i = 0; i < dimention[0]; i++)
-            {
-                for (int j = 0; j < dimention[1]; j++)
+                else
                 {
-                    System.Console.Write(array[i, j]+" ");
+                    System.Console.WriteLine(0);
+                    continue;
                 }
-                System.Console.Write("\n");
+                System.Console.WriteLine($"{answer.Count} {string.Join(" ", answer)}");
             }
 
         }
     }
 
+    public static void Compiler(Dictionary<string, string[]> modules, string currentModule, List<string> returnString, Dictionary<string, bool> compiled)
+    {
+        if(!compiled.Keys.Contains(currentModule))
+        {
+            if(modules[currentModule] == null)
+            {
+                compiled.Add(currentModule, true);
+                returnString.Add(currentModule);
+                return;
+            }
+            else
+            {
+                foreach (var dependance in modules[currentModule])
+                {
+                    if (dependance != "")
+                        Compiler(modules, dependance, returnString, compiled);
+                }
+                compiled.Add(currentModule, true);
+                returnString.Add(currentModule);
+            }
+        }
+    }
 }
-
-// 1 st problem
-// int t = int.Parse(Console.ReadLine());
-// for (int i = 0; i < t; i++)
-// {
-//     int[] twoNums = Console.ReadLine().Split().Select(int.Parse).ToArray();
-//     System.Console.WriteLine(twoNums[0]+twoNums[1]);
-// }
-
-// 2nd problem
-// int t = int.Parse(Console.ReadLine());
-// while(t-- != 0)
-// {
-//     int nOfProducts = int.Parse(Console.ReadLine());
-//     int sum = 0;
-//     int[] products = Console.ReadLine().Split(' ').Select(x => int.Parse(x)).ToArray();
-//     Dictionary<int, int> productsCount = new Dictionary<int, int>();
-//     foreach (int item in products)
-//     {
-//         if(productsCount.ContainsKey(item))
-//         {
-//             productsCount[item]++;
-//         }
-//         else
-//         {
-//             productsCount.Add(item, 1);
-//         }
-//     }
-//     foreach (var item in productsCount)
-//     {
-//         sum += ((item.Value%3) * item.Key) + ((int)(item.Value/3) * item.Key * 2);
-//     }
-//     System.Console.WriteLine(sum);
-// }
