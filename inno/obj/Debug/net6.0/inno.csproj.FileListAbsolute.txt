@@ -1,0 +1,15 @@
+C:\Users\MSI\problems\inno\bin\Debug\net6.0\inno.exe
+C:\Users\MSI\problems\inno\bin\Debug\net6.0\inno.deps.json
+C:\Users\MSI\problems\inno\bin\Debug\net6.0\inno.runtimeconfig.json
+C:\Users\MSI\problems\inno\bin\Debug\net6.0\inno.dll
+C:\Users\MSI\problems\inno\bin\Debug\net6.0\inno.pdb
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\inno.csproj.AssemblyReference.cache
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\inno.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\inno.AssemblyInfoInputs.cache
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\inno.AssemblyInfo.cs
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\inno.csproj.CoreCompileInputs.cache
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\inno.dll
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\refint\inno.dll
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\inno.pdb
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\inno.genruntimeconfig.cache
+C:\Users\MSI\problems\inno\obj\Debug\net6.0\ref\inno.dll

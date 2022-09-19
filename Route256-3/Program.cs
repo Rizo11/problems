@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Route256;
 
@@ -6,70 +7,25 @@ public class Program
 {
     public static void Main()
     {
-        int t = int.Parse(Console.ReadLine());
-        while(t-- != 0)
+        ulong[] prosTask = Console.ReadLine().Split(' ').Select(a => ulong.Parse(a)).ToArray();
+        List<ulong> prosEnergy = Console.ReadLine().Split(' ').Select(a => ulong.Parse(a)).ToList();
+        prosEnergy.Sort();
+        ulong[] prosTime = new ulong[prosEnergy.Count()];
+        ulong totalEnergy = 0;
+        while(prosTask[1]-- != 0)
         {
-            Console.ReadLine();
-            int n = int.Parse(Console.ReadLine());
-            Dictionary<string, string[]> modules = new();
-            while(n-- != 0)
+            ulong[] startDur = Console.ReadLine().Split(' ').Select(a => ulong.Parse(a)).ToArray();
+            ulong nOfPros = (ulong)prosEnergy.Count();
+            for (int i = 0; i < (int)nOfPros; i++)
             {
-                // Reading modules
-                string[] currentModule = Console.ReadLine().Split(':');
-                modules.Add(currentModule[0], currentModule[1].Length > 0 ? currentModule[1].Split(' ') : null);
-            }
-            int request = int.Parse(Console.ReadLine());
-            Dictionary<string, bool> compiled = new();
-            while (request-- != 0)
-            {
-                // Reading requests
-                List<string> answer = new();
-                string currentRequest = Console.ReadLine();
-                if(!compiled.Keys.Contains(currentRequest))
+                if(prosTime[i] <= startDur[0])
                 {
-                    // compile and add to compiled
-                    if (modules[currentRequest] != null)
-                    {
-                        foreach (var dependance in modules[currentRequest])
-                        {
-                            if (dependance != "")
-                                Compiler(modules, dependance, answer, compiled);
-                        }
-                    }
-                    compiled.Add(currentRequest, true);
-                    answer.Add(currentRequest);
+                    totalEnergy += prosEnergy[i] * startDur[1];
+                    prosTime[i] += startDur[0] + startDur[1];
+                    break;
                 }
-                else
-                {
-                    System.Console.WriteLine(0);
-                    continue;
-                }
-                System.Console.WriteLine($"{answer.Count} {string.Join(" ", answer)}");
-            }
-
-        }
-    }
-
-    public static void Compiler(Dictionary<string, string[]> modules, string currentModule, List<string> returnString, Dictionary<string, bool> compiled)
-    {
-        if(!compiled.Keys.Contains(currentModule))
-        {
-            if(modules[currentModule] == null)
-            {
-                compiled.Add(currentModule, true);
-                returnString.Add(currentModule);
-                return;
-            }
-            else
-            {
-                foreach (var dependance in modules[currentModule])
-                {
-                    if (dependance != "")
-                        Compiler(modules, dependance, returnString, compiled);
-                }
-                compiled.Add(currentModule, true);
-                returnString.Add(currentModule);
             }
         }
+        Console.WriteLine(totalEnergy);
     }
 }
